@@ -1,0 +1,18 @@
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+num params: 46.8K
+epoch 1, meta-train 0.0000|1.0000, 6.6s 6.6s/19.9s
+epoch 2, meta-train 0.0000|1.0000, 7.2s 14.0s/20.9s
+epoch 3, meta-train 0.0000|1.0000, 7.4s 21.5s/21.5s
+num params: 46.8K
+epoch 1, meta-train 0.0000|1.0000, 7.0s 7.0s/21.1s
+epoch 2, meta-train 0.0000|1.0000, 7.5s 14.6s/21.9s
+epoch 3, meta-train 0.0000|1.0000, 7.6s 22.3s/22.3s
