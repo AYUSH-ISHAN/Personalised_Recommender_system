@@ -100,11 +100,14 @@ class MAML(Module):
       # print(logits)
       # logits = torch.tensor(logits)
       # print(logits.shape, y.shape)
-      logits = logits[0]
+      # logits = logits[0]
+      # print(logits.shape)
+      # logits = torch.reshape(logits, (10,1))
       y = torch.reshape(y, (1,1))
-      # print(logits, y)
+      # print(logits.shape, y.shape)
       loss = F.cross_entropy(logits, y)
       # backward pass
+      # print()
       grads = autograd.grad(loss, params.values(), 
         create_graph=(not detach and not inner_args.first_order),
         only_inputs=True, allow_unused=True)

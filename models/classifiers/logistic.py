@@ -17,7 +17,7 @@ class LogisticClassifier(Module):
     self.temp = temp
     self.learn_temp = learn_temp
     # print("class : ", in_dim.shape, n_way)
-    self.linear = Linear(196, 1)
+    self.linear = Linear(169, 11)
     if self.learn_temp:
       self.temp = nn.Parameter(torch.tensor(temp))
 
@@ -30,4 +30,9 @@ class LogisticClassifier(Module):
     # print(get_child_dict(params, 'linear'))
     logits = self.linear(x_shot, get_child_dict(params, 'linear'))
     logits = logits * self.temp
+    # print(logits.grad_fn)
+    # logits = torch.argmax(logits, keepdim=True) #+ torch.ones(1)
+    # _, logits_ = torch.max(logits, dim=1)
+    # print(logits_.grad_fn)
+    logits = torch.swapaxes(logits, 1, 2)
     return logits
