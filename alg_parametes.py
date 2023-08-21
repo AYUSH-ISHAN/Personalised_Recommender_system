@@ -1,6 +1,6 @@
 
 dataset= 'meta-mini-imagenet'
-eval_val = True
+eval_val = False#True
 PARALLEL = True
 class train:
   split= 'meta-train'
@@ -43,9 +43,9 @@ optimizer= 'adam'
 class optimizer_args:
   lr= 0.001
 
-epoch= 300
+epoch= 3   #300
 
-NET_SIZE = 14#512
+NET_SIZE = 13#512
 D_MODEL = NET_SIZE  # for input and inner feature of attention
 D_HIDDEN = 1024  # for feed-forward network
 N_LAYERS = 1  # number of computation block

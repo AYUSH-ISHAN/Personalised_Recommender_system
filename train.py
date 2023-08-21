@@ -49,53 +49,11 @@ def main(config):
   set_X, set_Y, test_set_X, test_set_Y = datasets.make(config.dataset)
   # print(len(set_X))
   train_set_X = torch.from_numpy(set_X)
-  train_set_Y = torch.from_numpy(set_Y)
+  train_set_Y = torch.from_numpy(set_Y).to(torch.long)
   test_set_X = torch.from_numpy(test_set_X)
-  test_set_Y = torch.from_numpy(test_set_Y)
-  # print(len(train_set_X))
-  # print(train_set)
-  # utils.log('meta-train set: {} (x{}), {}'.format(
-  #   train_set[0][0].shape, len(train_set), train_set.n_classes))
-  # train_loader = DataLoader(
-  #   train_set, config['train']['n_episode'],
-  #   collate_fn=datasets.collate_fn, num_workers=1, pin_memory=True)
-
-  # meta-val
-  # eval_val = False
-  # if config.get('val'):
-  #   eval_val = True
-  #   val_set = datasets.make(config.dataset, **config.val)
-    # utils.log('meta-val set: {} (x{}), {}'.format(
-    #   val_set[0][0].shape, len(val_set), val_set.n_classes))
-    # val_loader = DataLoader(
-    #   val_set, config['val']['n_episode'],
-    #   collate_fn=datasets.collate_fn, num_workers=1, pin_memory=True)
-  
-  ##### Model and Optimizer #####
-
-  # inner_args = utils.config_inner_args(config.get('inner_args'))
-  # if config.get('load'):
-  #   ckpt = torch.load(config['load'])
-  #   config['encoder'] = ckpt['encoder']
-  #   config['encoder_args'] = ckpt['encoder_args']
-  #   config['classifier'] = ckpt['classifier']
-  #   config['classifier_args'] = ckpt['classifier_args']
-  #   model = models.load(ckpt, load_clf=(not inner_args['reset_classifier']))
-  #   optimizer, lr_scheduler = optimizers.load(ckpt, model.parameters())
-  #   start_epoch = ckpt['training']['epoch'] + 1
-  #   max_va = ckpt['training']['max_va']
-  # else:
-  #   config['encoder_args'] = config.get('encoder_args') or dict()
-  #   config['classifier_args'] = config.get('classifier_args') or dict()
-  #   config['encoder_args']['bn_args']['n_episode'] = config['train']['n_episode']
-  #   config['classifier_args']['n_way'] = config['train']['n_way']
-  #   model = models.make(config['encoder'], config['encoder_args'],
-  #                       config['classifier'], config['classifier_args'])
-
+  test_set_Y = torch.from_numpy(test_set_Y).to(torch.long)
   
   model = models.make(alg_parametes.classifier, alg_parametes.D_MODEL, alg_parametes.D_HIDDEN, alg_parametes.N_LAYERS, alg_parametes.N_HEAD, alg_parametes.D_K, alg_parametes.D_V, alg_parametes.N_POSITION)
-  # optimizer, lr_scheduler = optimizers.make(
-  # config['optimizer'], model.parameters(), **config['optimizer_args'])
   optimizer = optim.Adam(model.parameters(), lr=1e-5)
   start_epoch = 1
   max_va = 0.
@@ -132,35 +90,18 @@ def main(config):
     np.random.seed(epoch)
 
     for start in range(0, train_set_X.shape[0], alg_parametes.MINIBATCH_SIZE):
-    # for numpy_arrays_features, numpy_arrays_target in tqdm(zip(train_set_X, train_set_Y)):
-      # print(data)
-      # print(data.shape)
-      # print(type(data))
-      # print(numpy_arrays_features, numpy_arrays_target)
-      # (numpy_arrays_features, numpy_arrays_target) = data
-      #  = data[0], data[1]
-      
-      # x_shot, y_shot = x_shot.cuda(), y_shot.cuda()
-      # x_query, y_query = x_query.cuda(), y_query.cuda()
-
-      # if inner_args['reset_classifier']:
-      #   if config.get('_parallel'):
-      #     model.module.reset_classifier()
-      #   else:
-      #     model.reset_classifier()
-
-      # logits = model(x_shot, x_query, y_shot, inner_args, meta_train=True)
       end = start + alg_parametes.MINIBATCH_SIZE
       logits = model(train_set_X[start:end],train_set_X[start:end], train_set_Y[start:end], alg_parametes.inner_args, meta_train = True)
       # logits = logits.flatten(0, 1)
       if logits.shape[0] != 128:
-          break
-      logits = torch.reshape(logits, (128,1))
+        break
+      logits = torch.reshape(logits, (128,11))
       labels = train_set_Y[start:end].flatten().to(torch.long)
       
       pred = torch.argmax(logits, dim=-1)
+      print(pred)
       acc = utils.compute_acc(pred, labels)
-      print(logits.shape, labels.shape)
+      # print(logits.shape, labels.shape)
       loss = F.cross_entropy(logits, labels)
       print("train : ", acc, loss)
       aves['tl'].update(loss.item(), 1)
@@ -173,11 +114,13 @@ def main(config):
       optimizer.step()
 
       # break
+
+      # break
     # meta-val
     if alg_parametes.eval_val:
       model.eval()
       np.random.seed(0)
-      for start in range(0, train_set_X.shape[0], alg_parametes.MINIBATCH_SIZE):
+      for start in range(0, test_set_X.shape[0], alg_parametes.MINIBATCH_SIZE):
         end = start + alg_parametes.MINIBATCH_SIZE
         # logits = model(train_set_X[start:end],train_set_X[start:end], train_set_Y[start:end], alg_parametes.inner_args, meta_train = True)
 
@@ -196,7 +139,7 @@ def main(config):
         if logits.shape[0] != 128:
           break  # the limit reached
         # print(logits.shape)
-        logits = torch.reshape(logits, (128,1))
+        logits = torch.reshape(logits, (128,11))
         # labels = y_query.flatten()
         labels = test_set_Y[start:end].flatten().to(torch.long)
         
