@@ -22,7 +22,8 @@ def register(data):
 #   return dataset
 
 def make(folder_dir):
-   df = pd.read_csv("./datasets/final_data.csv")
+   d = os.getcwd()
+   df = pd.read_csv(d+"/datasets/final_data.csv")
    features = df.iloc[:, :-1]
    target = df.iloc[:, -1]
    numpy_arrays_features = features.to_numpy(dtype=np.float32)
