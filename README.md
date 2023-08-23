@@ -19,7 +19,7 @@ Our algorithm is divided into two parts:
 
 Below are the plots:
 1. Loss: The cross-entropy loss between prediction and correct labels
-2. Accuracy: The mean of correct predictions in an epoch.
+2. Accuracy: The mean of correct predictions in an epoch per prediction. So, this is in fraction. 
    
 <img src = "./assets/Accuracy.plot.png">
 <img src = "./assets/Loss.plot.png">
