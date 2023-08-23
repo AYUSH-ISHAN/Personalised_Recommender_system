@@ -16,7 +16,16 @@ Our algorithm is divided into two parts:
 
 
 # Results :
+
 Below are the plots:
 1. Loss: The cross-entropy loss between prediction and correct labels
 2. Accuracy: The mean of correct predictions in an epoch.
-<img src = "./assets/Accuracy.plot.png"> <img src = "./assets/Loss.plot.png">
+   
+<img src = "./assets/Accuracy.plot.png">
+<img src = "./assets/Loss.plot.png">
+
+
+# Contributors :
+1. <a href ="https://github.com/AYUSH-ISHAN">Ayush Ishan</a>
+2. <a href ="https://github.com/RITIK160104">Ritik Narang</a>
+3. <a href ="https://github.com/Sanskar-gour">Sanskar Gour</a>
