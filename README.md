@@ -1,6 +1,3 @@
-# Update Latest Code
-
-
 # Recommender_system
 
 The "Personalized Recommendation System Project" aims to develop and implement an advanced recommendation system that tailors content and product suggestions to individual users' preferences. The project leverages state-of-the-art algorithms and techniques to enhance user experience and engagement on a digital platform.
@@ -22,3 +19,4 @@ Our algorithm is divided into two parts:
 Below are the plots:
 1. Loss: The cross-entropy loss between prediction and correct labels
 2. Accuracy: The mean of correct predictions in an epoch.
+<img src = "./assets/Accuracy.plot.png"> <img src = "./assets/Loss.plot.png">
