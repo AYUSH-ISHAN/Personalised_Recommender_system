@@ -6,7 +6,7 @@ This project recognizes the challenges posed by information overload in today's 
 
 
 # Algorithm:
-<img src ="./assets/flow_diagram.png"/> <br>
+<img src ="./assets/flow_diagram (1).png"/> <br>
 <br>
 Our algorithm is divided into two parts:
 1. The first part deals with sentiment analysis, the textual data can't be directly used in normal transformers. To leverage information from the text review, we customized the BERT for sentiment analysis. We trained the customized BERT model on the IMdB dataset of movie reviews (as shown in the image).
